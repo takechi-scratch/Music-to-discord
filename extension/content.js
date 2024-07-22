@@ -1,19 +1,19 @@
 const socket = io.connect("http://localhost:8080");
+const artist_Xpath = "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[2]/ytd-watch-metadata/div/div[2]/div[1]/ytd-video-owner-renderer/div[1]/ytd-channel-name/div/div/yt-formatted-string/a"
+let title
+let artist
 
 // YouTube用
 if (window.location.host.includes('youtube.com')) {
     setInterval(() => {
         if (window.location.href.includes('youtube.com/watch')) {
-            let titleElement = document.querySelector("#title > h1 > yt-formatted-string");
-            let artistElement = document.querySelector("#text > a")
-            if (titleElement) {
-                console.log(titleElement.innerText);
-            }
+            title = document.querySelector("#title > h1 > yt-formatted-string").innerText;
+            artist = document.evaluate(artist_Xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerText;
         } else {
-            let titleElement = ""
-            let artistElement = ""
+            title = ""
+            artist = ""
         }
-        data = { "title": titleElement.innerText, "artist": artistElement.innerText }
+        data = {"title": title, "artist": artist}
         socket.emit("message", data);
         console.log(data)
     }, 1000);

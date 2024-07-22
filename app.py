@@ -30,8 +30,8 @@ def handle_message(data):
     global last_get
 
     if data not in ["Ping", "Hello"]:
-        title = data["title"] if data["title"] == "" else "未再生"
-        artist = data["artist"] if data["artist"] == "" else "未再生"
+        title = data["title"] if data["title"] != "" else "未再生"
+        artist = data["artist"] if data["artist"] != "" else "未再生"
         last_get = time.time()
 
         emit("message", json.dumps(data))
@@ -42,14 +42,20 @@ def rpc_run():
     global artist
     global last_set
 
-    client_id = "1264115283140804628"
-    RPC = Presence(client_id, pipe=0)
-    RPC.connect()
+    try:
+        client_id = "1264115283140804628"
+        RPC = Presence(client_id, pipe=0)
+        RPC.connect()
 
-    while True:
-        RPC.update(details=title, state=artist, large_image="http://takechi.starfree.jp/Line_Music.png")
-        last_set = time.time()
-        time.sleep(15)
+        while True:
+            if title == "未再生":
+                RPC.update(details="再生していません", large_image="http://takechi.starfree.jp/Line_Music.png")
+            else:
+                RPC.update(details=title, state=artist, large_image="http://takechi.starfree.jp/Line_Music.png")
+            last_set = time.time()
+            time.sleep(15)
+    except Exception as e:
+        print(e)
 
 
 def flask_run():

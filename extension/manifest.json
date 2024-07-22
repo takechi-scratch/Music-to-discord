@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "Now Playing",
+    "name": "♪Music-to-Discord 拡張機能",
     "version": "1.0",
-    "description": "Display the currently playing song on YouTube and Spotify.",
+    "description": "再生しているYoutubeの動画を、Discordのリッチプレゼンスとして表示します。",
     "permissions": [
       "activeTab"
     ],
