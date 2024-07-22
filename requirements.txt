@@ -1,0 +1,3 @@
+pypresence
+Flask
+flask_socketio
